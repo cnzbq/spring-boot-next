@@ -1,0 +1,38 @@
+server:
+  port: 9001
+
+logging:
+  level:
+    ROOT: DEBUG
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:./h2/app.db;MODE=MySQL;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password: 123456
+    hikari:
+      pool-name: HikariCP
+      auto-commit: false
+
+  jpa:
+    generate-ddl: false
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+
+  flyway:
+    table: sys_schema_version
+
+
+application:
+  security:
+    authentication:
+      jwt:
+        # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
+        base64-secret: bXktc2VjcmV0LWtleS13aGljaC1zaG91bGQtYmUtY2hhbmdlZC1pbi1wcm9kdWN0aW9uLWFuZC1iZS1iYXNlNjQtZW5jb2RlZAo=
+        # Token is valid 24 hours
+        token-validity-in-seconds: 86400
+        token-validity-in-seconds-for-remember-me: 2592000

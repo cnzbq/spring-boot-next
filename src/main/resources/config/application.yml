@@ -1,3 +1,10 @@
+server:
+  port: 9001
+  servlet:
+    session:
+      cookie:
+        http-only: true
+
 spring:
   application:
     name: spring-boot-next
@@ -9,7 +16,10 @@ spring:
     group:
       dev:
         - dev
-        - api-docs
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
   data:
     jpa:
       repositories:
@@ -20,6 +30,34 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+    properties:
+      hibernate:
+        cache:
+          use_query_cache: false
+          use_second_level_cache: false
+        generate_statistics: false
+        order_updates: true
+  task:
+    execution:
+      thread-name-prefix: ${spring.application.name}-task-
+      pool:
+        core-size: 2
+        max-size: 50
+        queue-capacity: 10000
+    scheduling:
+      thread-name-prefix: ${spring.application.name}-scheduling-
+      pool:
+        size: 2
+  output:
+    ansi:
+      enabled: detect
 
   flyway:
     table: sys_schema_version
+
+
+springdoc:
+  show-actuator: true

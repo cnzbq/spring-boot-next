@@ -9,16 +9,18 @@ CREATE TABLE IF NOT EXISTS `sys_user`
     `activated`     BOOLEAN      NOT NULL DEFAULT false COMMENT '是否激活',
     `created_by`    VARCHAR(50)  NOT NULL COMMENT '创建人',
     `created_at`    DATETIME     NOT NULL COMMENT '创建时间',
+    `updated_by`    VARCHAR(50)  NOT NULL COMMENT '更新人',
+    `updated_at`    DATETIME     NOT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`)
 );
 
 -- 初始化用户
 INSERT INTO `sys_user`
 VALUES (1, 'admin', '$2a$10$gSAhZrxMllrbgj/kkK9UceBPpChGWJA7SYIb1Mqo.n5aNLq1/oRrC', 'Administrator',
-        'https://via.placeholder.com/250x250', true, 'admin', CURRENT_TIMESTAMP());
+        'https://via.placeholder.com/250x250', true, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
 INSERT INTO `sys_user`
 VALUES (2, 'user', '$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K', 'User',
-        'https://via.placeholder.com/250x250', true, 'admin', CURRENT_TIMESTAMP());
+        'https://via.placeholder.com/250x250', true, 'admin', CURRENT_TIMESTAMP(), 'admin', CURRENT_TIMESTAMP());
 
 -- 权限表
 CREATE TABLE IF NOT EXISTS `sys_role`
@@ -48,4 +50,3 @@ INSERT INTO `sys_user_role`
 VALUES (1, 2);
 INSERT INTO `sys_user_role`
 VALUES (2, 2);
-

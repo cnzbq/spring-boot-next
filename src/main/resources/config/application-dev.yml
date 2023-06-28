@@ -1,15 +1,14 @@
-server:
-  port: 9001
-
 logging:
   level:
-    web: debug
+    ROOT: DEBUG
+    org.hibernate.SQL: DEBUG
+    com.venable.next: DEBUG
 
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:./h2/app.db;MODE=MySQL;DATABASE_TO_LOWER=TRUE
+    url: jdbc:h2:file:./db/h2.db;MODE=MySQL;DATABASE_TO_LOWER=TRUE
     username: sa
     password: 123456
     hikari:
@@ -17,6 +16,13 @@ spring:
       auto-commit: false
 
 application:
+  # Cache configuration
+  cache:
+    caffeine:
+      # By default, objects stay 1 hour in the cache. This sets expireAfterWrite in Caffeine (https://github.com/ben-manes/caffeine/wiki/Eviction#time-based)
+      time-to-live-seconds: 3600
+      # Number of objects in each cache entry
+      max-entries: 100
   security:
     authentication:
       jwt:
@@ -25,5 +31,20 @@ application:
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000
+  # CORS is only enabled by default with the "dev" profile
+  cors:
+    # Allow Ionic for JHipster by default (* no longer allowed in Spring Boot 2.4+)
+    allowed-origins: http://localhost:8100, https://localhost:9001
+    # Enable CORS when running in GitHub Codespaces
+    allowed-methods: '*'
+    allowed-headers: '*'
+    allow-credentials: true
+    max-age: 1800
 
-
+  logging:
+    use-json-format: false
+    logstash:
+      enabled: false
+      host: localhost
+      port: 5000
+      ring-buffer-size: 512
